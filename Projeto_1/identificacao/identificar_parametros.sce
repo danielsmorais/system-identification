@@ -25,11 +25,14 @@ y = data(1:num_points,2);
 
 // Definicao da estrutura
 
-tabelaARX = zeros(4,10);
-tabelaARMAX = zeros(4,10);
+orderMAX = 4;
+delayMAX = 10;
 
-for order=1:4
-    for delay=0:10
+tabelaARX = zeros(orderMAX,delayMAX);
+tabelaARMAX = zeros(orderMAX,delayMAX);
+
+for order=1:orderMAX
+    for delay=0:delayMAX
         
         // Colocar o código aqui para gerar uma tabela com a relação de ordem e atraso.
         // Testar o Akaike
