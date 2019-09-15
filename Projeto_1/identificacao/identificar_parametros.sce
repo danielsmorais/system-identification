@@ -32,8 +32,8 @@ y = data(1:num_points,2);
 orderMAX = 4;
 delayMAX = 10;
 
-tabelaARX = zeros(orderMAX,delayMAX);
-tabelaARMAX = zeros(orderMAX,delayMAX);
+tabelaARX = cell(orderMAX,delayMAX,2);
+tabelaARMAX = cell(orderMAX,delayMAX,2);
 
 matriz_AIC_ARX = zeros(orderMAX,delayMAX);
 matriz_AIC_ARMAX = zeros(orderMAX,delayMAX);
@@ -44,37 +44,36 @@ for order=1:orderMAX
         // Colocar o código aqui para gerar uma tabela com a relação de ordem e atraso.
         // Testar o Akaike
         // Ter que escolher parte de teste e de identificação
-        
-        
-        
-        
-        
-        
 
+        // Identificacao ARX
+        //disp('Modelo ARX:');
+        // Calculo dos parametros
+        [theta,res]=identifyARX(u,y,order,delay);
+        //disp('PARAMETROS:');
+        //disp(theta);
+        //disp('DESVIO PADRAO DOS RESIDUOS:');
+        //disp(stdev(res));
+        
+        tabelaARX{order,delay+1,1} = theta;
+        tabelaARX{order,delay+1,2} = stdev(res);
+        
+        // Identificacao ARMAX
+        //disp('Modelo ARMAX:');
+        // Calculo dos parametros
+        [theta,res]=identifyARMAX(u,y,order,delay);
+        //disp('PARAMETROS:');
+        //disp(theta);
+        //disp('DESVIO PADRAO DOS RESIDUOS:');
+        //disp(stdev(res));
+        
+        tabelaARMAX{order,delay+1,1} = theta;
+        tabelaARMAX{order,delay+1,2} = stdev(res);
+        
+        // Volta para a pasta anterior
+        chdir(OLDDIR);               
+        
     end
 end
 
 
-order = 2;
-delay = 10;
 
-// Identificacao ARX
-disp('Modelo ARX:');
-// Calculo dos parametros
-[theta,res]=identifyARX(u,y,order,delay);
-disp('PARAMETROS:');
-disp(theta);
-disp('DESVIO PADRAO DOS RESIDUOS:');
-disp(stdev(res));
-
-// Identificacao ARMAX
-disp('Modelo ARMAX:');
-// Calculo dos parametros
-[theta,res]=identifyARMAX(u,y,order,delay);
-disp('PARAMETROS:');
-disp(theta);
-disp('DESVIO PADRAO DOS RESIDUOS:');
-disp(stdev(res));
-
-// Volta para a pasta anterior
-chdir(OLDDIR);
