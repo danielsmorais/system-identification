@@ -195,6 +195,11 @@ function [theta,res]=identifyARX(u,y,order,delay)
     // Calcula os residuos (erros de predicao)
     y_pred = A*theta;
     res = B-y_pred;
+    
+    // Para a utilização de uma nova informação, B vai ser o y_2 de outro conjunto de dados, que no caso pode ser parte do conjunto de amostra.
+    // res = y_2 - y_pred
+    
+    
 endfunction
 
 // IDENTIFICACAO ARMAX
