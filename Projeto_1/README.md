@@ -7,3 +7,17 @@ Deverá ser identificado o modelo linear mais adequado (ordem, atraso, ARX/ARMAX
 - A série histórica do índice IPCA foi obtida no IBGE, no endereço https://ww2.ibge.gov.br/home/estatistica/indicadores/precos/inpc_ipca/defaultseriesHist.shtm. A cotação média mensal do dólar frente ao real foi obtida do site http://fxtop.com/pt/historico-das-taxas-de-cambio.php?MA=1.
 
 Cada um dos sistemas deverá ser identificado off-line, determinando-se os parâmetros estruturais (ordem, atraso, ARX/ARMAX) e os coeficientes do modelo. Em seguida, deverá ser feita a identificação recursiva dos coeficientes do modelo, fixados os parâmetros estruturais já determinados no passo anterior. Deve ser analisada a evolução dos parâmetros no tempo, verificando-se a influência do fator de esquecimento.
+
+--
+
+Relatório técnico sobre a identificação dos modelos correspondentes aos 5 arquivos de dados fornecidos:
+
+- Sistema barra-bola
+
+- Secador de cabelos (dados)
+
+- Tanques em cascata - Experimento 1 (T=5s, N=2500)
+
+- Tanques em cascata - Experimento 2 (T=4s, N=7500)
+
+- IPCA (Índice Nacional de Preços ao Consumidor Amplo) - além do modelo, forneça a previsão para a inflação de setembro/2019.

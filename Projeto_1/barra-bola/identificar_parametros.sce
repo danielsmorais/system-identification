@@ -1,8 +1,7 @@
 // Identifica sistema a partir de pontos entrada/saida
 
-exec('/home/daniel/Git/system-identification/Projeto_1/identificacao/funcoes_identificacao.sci', -1);
+exec('funcoes_identificacao.sci', -1);
 
-//exec('C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\identificacao\funcoes_identificacao.sci', -1)
 
 // Armazena a pasta atual
 OLDDIR=pwd();
@@ -31,7 +30,7 @@ y = data(1:num_points,2);
 
 // Definicao da estrutura
 
-orderMAX = 10;
+orderMAX = 5;
 delayMAX = 10;
 
 estr = 2;      //quantidade mínima de parâmetros
