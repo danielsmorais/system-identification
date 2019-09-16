@@ -1,12 +1,14 @@
 // Identifica sistema a partir de pontos entrada/saida
 
-exec('C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\identificacao\funcoes_identificacao.sci', -1)
+exec('/home/daniel/Git/system-identification/Projeto_1/identificacao/funcoes_identificacao.sci', -1);
+
+//exec('C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\identificacao\funcoes_identificacao.sci', -1)
 
 // Armazena a pasta atual
 OLDDIR=pwd();
 // Pasta de leitura dos arquivos
-// DATADIR='/home/daniel/Git/system-identification/Projeto_1/barra-bola';
-DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\barra-bola';
+DATADIR='/home/daniel/Git/system-identification/Projeto_1/barra-bola';
+//DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\barra-bola';
 
 if (~chdir(DATADIR)) then
     error('Folder does not exist');
@@ -29,14 +31,19 @@ y = data(1:num_points,2);
 
 // Definicao da estrutura
 
-orderMAX = 4;
+orderMAX = 10;
 delayMAX = 10;
 
-tabelaARX = cell(orderMAX,delayMAX,2);
-tabelaARMAX = cell(orderMAX,delayMAX,2);
+estr = 2;      //quantidade mínima de parâmetros
 
-matriz_AIC_ARX = zeros(orderMAX,delayMAX);
-matriz_AIC_ARMAX = zeros(orderMAX,delayMAX);
+thetaARX = cell(orderMAX,delayMAX);
+thetaARMAX = cell(orderMAX,delayMAX);
+
+resARX = zeros(orderMAX,delayMAX);      //guarda os residuos
+resARMAX = zeros(orderMAX,delayMAX);    //guarda os residuos
+
+matriz_AIC_ARX = zeros(orderMAX,delayMAX+1);
+matriz_AIC_ARMAX = zeros(orderMAX,delayMAX+1);
 
 for order=1:orderMAX
     for delay=0:delayMAX
@@ -54,8 +61,11 @@ for order=1:orderMAX
         //disp('DESVIO PADRAO DOS RESIDUOS:');
         //disp(stdev(res));
         
-        tabelaARX{order,delay+1,1} = theta;
-        tabelaARX{order,delay+1,2} = stdev(res);
+        thetaARX{order,delay+1} = theta;
+        qtdAmostras = length(res);
+        resARX(order,delay+1) = stdev(res);
+        AIC = 2*(order*estr) - 2*log(stdev(res)^2); 
+        matriz_AIC_ARX(order,delay+1) = AIC;
         
         // Identificacao ARMAX
         //disp('Modelo ARMAX:');
@@ -66,10 +76,13 @@ for order=1:orderMAX
         //disp('DESVIO PADRAO DOS RESIDUOS:');
         //disp(stdev(res));
         
-        tabelaARMAX{order,delay+1,1} = theta;
-        tabelaARMAX{order,delay+1,2} = stdev(res);
+        thetaARMAX{order,delay+1} = theta;
+        qtdAmostras = length(res);
+        resARMAX(order,delay+1) = stdev(res);
+        AIC = 2*(order*estr) - 2*log(stdev(res)^2);
+        matriz_AIC_ARMAX(order,delay+1) = AIC;
         
-        // Volta para a pasta anterior
+        // Volta p1ara a pasta anterior
         chdir(OLDDIR);               
         
     end
