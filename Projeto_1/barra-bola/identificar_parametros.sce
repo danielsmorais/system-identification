@@ -6,8 +6,8 @@ exec('funcoes_identificacao.sci', -1);
 // Armazena a pasta atual
 OLDDIR=pwd();
 // Pasta de leitura dos arquivos
-DATADIR='/home/daniel/Git/system-identification/Projeto_1/barra-bola';
-//DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\barra-bola';
+//DATADIR='/home/daniel/Git/system-identification/Projeto_1/barra-bola';
+DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\barra-bola';
 
 if (~chdir(DATADIR)) then
     error('Folder does not exist');
