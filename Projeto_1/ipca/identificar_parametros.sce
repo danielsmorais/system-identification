@@ -1,13 +1,14 @@
 // Identifica sistema a partir de pontos entrada/saida
 
 exec('funcoes_identificacao.sci', -1);
-
+loadmatfile('ipca.mat');
+loadmatfile('usdbrl.mat');
 
 // Armazena a pasta atual
 OLDDIR=pwd();
 // Pasta de leitura dos arquivos
-//DATADIR='/home/daniel/Git/system-identification/Projeto_1/barra-bola';
-DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\ipca';
+DATADIR='/home/daniel/Git/system-identification/Projeto_1/ipca';
+//DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\ipca';
 
 if (~chdir(DATADIR)) then
     error('Folder does not exist');
@@ -17,7 +18,7 @@ end
 //FILE='dryer.dat';
 // Leitura dos dados
 //data = read(FILE, -1, 2);
-data = [b,a];
+data = [usdbrl,ipca];
 num_points = size(data,"r");
 if (num_points<100) then
     error('Number of points too small to obtain a good identification.');
