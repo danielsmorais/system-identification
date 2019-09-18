@@ -7,16 +7,17 @@ exec('funcoes_identificacao.sci', -1);
 OLDDIR=pwd();
 // Pasta de leitura dos arquivos
 //DATADIR='/home/daniel/Git/system-identification/Projeto_1/barra-bola';
-DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\tanques';
+DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\ipca';
 
 if (~chdir(DATADIR)) then
     error('Folder does not exist');
 end
 
 // Arquivo a ser lido
-FILE='tanks1.dat';
+//FILE='dryer.dat';
 // Leitura dos dados
-data = read(FILE, -1, 2);
+//data = read(FILE, -1, 2);
+data = [b,a];
 num_points = size(data,"r");
 if (num_points<100) then
     error('Number of points too small to obtain a good identification.');
@@ -25,13 +26,14 @@ end
 // Pontos de identificacao
 // Sinal de entrada
 u = data(1:num_points,1);
+
 // Sinal de saida
 y = data(1:num_points,2);
 
 // Definicao da estrutura
 
-orderMAX = 10;
-delayMAX = 10;
+orderMAX = 24;
+delayMAX = 24;
 
 estr = 2;      //quantidade mínima de parâmetros
 
