@@ -6,8 +6,8 @@ exec('funcoes_identificacao.sci', -1);
 // Armazena a pasta atual
 OLDDIR=pwd();
 // Pasta de leitura dos arquivos
-//DATADIR='/home/daniel/Git/system-identification/Projeto_1/barra-bola';
-DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\barra-bola';
+DATADIR='/home/daniel/Git/system-identification/Projeto_1/barra-bola';
+//DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\barra-bola';
 
 if (~chdir(DATADIR)) then
     error('Folder does not exist');
@@ -30,7 +30,7 @@ y = data(1:num_points,2);
 
 // Definicao da estrutura
 
-orderMAX = 5;
+orderMAX = 10;
 delayMAX = 10;
 
 estr = 2;      //quantidade mínima de parâmetros
@@ -43,6 +43,10 @@ resARMAX = zeros(orderMAX,delayMAX);    //guarda os residuos
 
 matriz_AIC_ARX = zeros(orderMAX,delayMAX+1);
 matriz_AIC_ARMAX = zeros(orderMAX,delayMAX+1);
+
+matriz_BIC_ARX = zeros(orderMAX,delayMAX+1);
+matriz_BIC_ARMAX = zeros(orderMAX,delayMAX+1);
+
 
 for order=1:orderMAX
     for delay=0:delayMAX
@@ -63,8 +67,11 @@ for order=1:orderMAX
         thetaARX{order,delay+1} = theta;
         qtdAmostras = length(res);
         resARX(order,delay+1) = stdev(res);
-        AIC = 2*(order*estr) - 2*log(stdev(res)^2); 
+        AIC = 2*(order*estr) + qtdAmostras*log(stdev(res)^2); 
         matriz_AIC_ARX(order,delay+1) = AIC;
+
+        BIC = (order*estr)*log(qtdAmostras)-2*log(stdev(res)^2);  
+        matriz_BIC_ARX(order,delay+1) = BIC;
         
         // Identificacao ARMAX
         //disp('Modelo ARMAX:');
@@ -80,6 +87,9 @@ for order=1:orderMAX
         resARMAX(order,delay+1) = stdev(res);
         AIC = 2*(order*estr) - 2*log(stdev(res)^2);
         matriz_AIC_ARMAX(order,delay+1) = AIC;
+
+        BIC = (order*estr)*log(qtdAmostras)-2*log(stdev(res)^2);  
+        matriz_BIC_ARMAX(order,delay+1) = BIC;
         
         // Volta p1ara a pasta anterior
         chdir(OLDDIR);               
