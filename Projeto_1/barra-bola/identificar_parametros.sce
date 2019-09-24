@@ -44,10 +44,6 @@ resARMAX = zeros(orderMAX,delayMAX);    //guarda os residuos
 matriz_AIC_ARX = zeros(orderMAX,delayMAX+1);
 matriz_AIC_ARMAX = zeros(orderMAX,delayMAX+1);
 
-matriz_BIC_ARX = zeros(orderMAX,delayMAX+1);
-matriz_BIC_ARMAX = zeros(orderMAX,delayMAX+1);
-
-
 for order=1:orderMAX
     for delay=0:delayMAX
         
@@ -69,10 +65,7 @@ for order=1:orderMAX
         resARX(order,delay+1) = stdev(res);
         AIC = 2*(order*estr) + qtdAmostras*log(stdev(res)^2); 
         matriz_AIC_ARX(order,delay+1) = AIC;
-
-        BIC = (order*estr)*log(qtdAmostras)-2*log(stdev(res)^2);  
-        matriz_BIC_ARX(order,delay+1) = BIC;
-        
+      
         // Identificacao ARMAX
         //disp('Modelo ARMAX:');
         // Calculo dos parametros
@@ -85,17 +78,18 @@ for order=1:orderMAX
         thetaARMAX{order,delay+1} = theta;
         qtdAmostras = length(res);
         resARMAX(order,delay+1) = stdev(res);
-        AIC = 2*(order*estr) - 2*log(stdev(res)^2);
+        AIC = 2*(order*estr) + qtdAmostras*log(stdev(res)^2);
         matriz_AIC_ARMAX(order,delay+1) = AIC;
 
-        BIC = (order*estr)*log(qtdAmostras)-2*log(stdev(res)^2);  
-        matriz_BIC_ARMAX(order,delay+1) = BIC;
-        
         // Volta p1ara a pasta anterior
         chdir(OLDDIR);               
         
     end
 end
+
+// format('v',7)
+// for i=1:5 strcat(string(matriz_AIC_ARX(i,1:8)/10000),' & ') end
+// for i=1:5 strcat(string(matriz_AIC_ARMAX(i,1:8)/10000),' & ') end
 
 
 

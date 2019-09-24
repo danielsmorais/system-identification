@@ -6,8 +6,8 @@ exec('funcoes_identificacao.sci', -1);
 // Armazena a pasta atual
 OLDDIR=pwd();
 // Pasta de leitura dos arquivos
-//DATADIR='/home/daniel/Git/system-identification/Projeto_1/barra-bola';
-DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\secador';
+DATADIR='/home/daniel/Git/system-identification/Projeto_1/secador';
+//DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_1\secador';
 
 if (~chdir(DATADIR)) then
     error('Folder does not exist');
@@ -63,7 +63,7 @@ for order=1:orderMAX
         thetaARX{order,delay+1} = theta;
         qtdAmostras = length(res);
         resARX(order,delay+1) = stdev(res);
-        AIC = 2*(order*estr) - 2*log(stdev(res)^2); 
+        AIC = 2*(order*estr) + qtdAmostras*log(stdev(res)^2); 
         matriz_AIC_ARX(order,delay+1) = AIC;
         
         // Identificacao ARMAX
@@ -78,7 +78,7 @@ for order=1:orderMAX
         thetaARMAX{order,delay+1} = theta;
         qtdAmostras = length(res);
         resARMAX(order,delay+1) = stdev(res);
-        AIC = 2*(order*estr) - 2*log(stdev(res)^2);
+        AIC = 2*(order*estr) + qtdAmostras*log(stdev(res)^2); 
         matriz_AIC_ARMAX(order,delay+1) = AIC;
         
         // Volta p1ara a pasta anterior
@@ -87,5 +87,7 @@ for order=1:orderMAX
     end
 end
 
-
+// format('v',7)
+// for i=1:5 strcat(string(matriz_AIC_ARX(i,1:8)/10000),' & ') end
+// for i=1:5 strcat(string(matriz_AIC_ARMAX(i,1:8)/10000),' & ') end
 
