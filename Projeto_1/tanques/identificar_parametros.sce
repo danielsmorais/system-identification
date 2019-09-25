@@ -63,7 +63,7 @@ for order=1:orderMAX
         thetaARX{order,delay+1} = theta;
         qtdAmostras = length(res);
         resARX(order,delay+1) = stdev(res);
-        AIC = 2*(order*estr) - qtdAmostras*log(stdev(res)^2);; 
+        AIC = 2*(order*estr) - 2*log(stdev(res)^2); 
         matriz_AIC_ARX(order,delay+1) = AIC;
         
         // Identificacao ARMAX
@@ -78,7 +78,7 @@ for order=1:orderMAX
         thetaARMAX{order,delay+1} = theta;
         qtdAmostras = length(res);
         resARMAX(order,delay+1) = stdev(res);
-        AIC = 2*(order*estr) + qtdAmostras*log(stdev(res)^2);
+        AIC = 2*(order*estr) - 2*log(stdev(res)^2); 
         matriz_AIC_ARMAX(order,delay+1) = AIC;
         
         // Volta p1ara a pasta anterior
