@@ -3,7 +3,7 @@
 // Armazena a pasta atual
 OLDDIR=pwd();
 // Pasta de leitura dos arquivos
-DATADIR='C:\Users\Adelardo\Documents\PosGraduacao\Identificação de Sistemas\dados';
+DATADIR='/home/daniel/Git/system-identification/Projeto_2';
 if (~chdir(DATADIR)) then
     error('Folder does not exist');
 end
@@ -66,11 +66,11 @@ end
 // Percurso xy
 //plot(filtr(:,1), filtr(:,2), 'b', data(:,2), data(:,3), 'ro');
 // Evolucao de x
-plot(real(:,1), real(:,2), 'kx', data(:,1), filtr(:,1), '-b', data(:,1), data(:,2), 'ro');
+//plot(real(:,1), real(:,2), 'kx', data(:,1), filtr(:,1), '-b', data(:,1), data(:,2), 'ro');
 // Evolucao de y
 //plot(real(:,1), real(:,3), 'kx', data(:,1), filtr(:,2), '-b', data(:,1), data(:,3), 'ro');
 // Evolucao de v
-//plot(real(:,1), real(:,4), 'kx', data(:,1), filtr(:,3), '-b');
+plot(real(:,1), real(:,4), 'kx', data(:,1), filtr(:,3), '-b');
 
 // Volta para a pasta anterior
 chdir(OLDDIR);
