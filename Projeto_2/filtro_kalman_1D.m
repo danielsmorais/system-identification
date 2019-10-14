@@ -4,7 +4,8 @@ opengl('save','hardware')
 % Armazena a pasta atual
 OLDDIR=pwd();
 % Pasta de leitura dos arquivos
-DATADIR='/home/daniel/Git/system-identification/Projeto_2';
+%DATADIR='/home/daniel/Git/system-identification/Projeto_2';
+DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_2';
 if (~chdir(DATADIR))
     error('Folder does not exist');
 end
@@ -65,13 +66,13 @@ for (i=1:npassos)
 end
 
 % Percurso xy
-% plot(filtr(:,1), filtr(:,2), 'b', data(:,2), data(:,3), 'ro');
+plot(filtr(:,1), filtr(:,2), 'b', data(:,2), data(:,3), 'ro');
 % Evolucao de x
 % plot(real(:,1), real(:,2), 'kx', data(:,1), filtr(:,1), '-b', data(:,1), data(:,2), 'ro');
 % Evolucao de y
 % plot(real(:,1), real(:,3), 'kx', data(:,1), filtr(:,2), '-b', data(:,1), data(:,3), 'ro');
 % Evolucao de v
-plot(real(:,1), real(:,4), 'kx', data(:,1), filtr(:,3), '-b');
+% plot(real(:,1), real(:,4), 'kx', data(:,1), filtr(:,3), '-b');
 
 % Volta para a pasta anterior
 chdir(OLDDIR);
