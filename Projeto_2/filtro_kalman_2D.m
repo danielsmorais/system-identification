@@ -11,22 +11,23 @@ if (~chdir(DATADIR))
 end
 
 % Arquivo com as medicoes
-FILE='dados_GPS_1D_medidos.txt';
+FILE='dados_GPS_2D_medidos.txt';
 % Leitura dos dados
 % 3 colunas = t x y
 data = dlmread(FILE);
 npassos = size(data,1);
 deltaT = data(2,1)-data(1,1);
 
-% Arquivo com os dados reais
-FILE='dados_GPS_1D_internos.txt';
-% Leitura dos dados
-% 4 colunas = t x y v
-real = dlmread(FILE);
+
+% Manipulação dos dados -----------------------------
+
+
+
+%----------------------------------------------------
 
 % Vetor de estados
-% X = [l; v]
-X = [0;0];
+% X = [x; y; theta; v; w]
+X = [0; 0; 0; 0; 0];
 % Matriz de transicao
 % Xk+1 = PHI*Xk + u
 PHI = [1 deltaT; 0 1];
