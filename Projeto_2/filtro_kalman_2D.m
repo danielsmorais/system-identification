@@ -4,8 +4,8 @@ opengl('save','hardware')
 % Armazena a pasta atual
 OLDDIR=pwd();
 % Pasta de leitura dos arquivos
-DATADIR='/home/daniel/Git/system-identification/Projeto_2';
-%DATADIR='C:\Users\Daniel Morais\Documents\git\system-identification\Projeto_2';
+DATADIR=OLDDIR;
+
 if (~chdir(DATADIR))
     error('Folder does not exist');
 end
@@ -16,7 +16,7 @@ FILE='dados_GPS_2D_medidos.txt';
 % 3 colunas = t x y
 data = dlmread(FILE);
 npassos = size(data,1);
-deltaT = data(2,1)-data(1,1);
+deltaT = data(2,2)-data(1,2);
 
 
 % Manipulação dos dados -----------------------------
@@ -36,25 +36,37 @@ PHI = [1 0 0 cos(theta)*deltaT 0;
        0 0 1 0 deltaT;
        0 0 0 1 0;
        0 0 0 0 1];
+   
+  
 % Variancia da estimativa
 % Inicialmente nula pois a condicao inicial eh conhecida
 P = zeros(5);
 % Variancia do ruido dinamico
-Q = diag([0.1^2 0.1^2 0.01 1 0.1^2]);
+Q = diag([0.1^2 0.1^2 0.01^2 0.01 0.01^2]);
 % Matriz de medicao
 theta = 32*(pi/180);  %// 32 graus = angulo da via
 H = [1 0 0 0 0;
      0 1 0 0 0];
 % Variancia do ruido de medicao
-R = [5^2 0; 0 5^2];
+R = [2^2 0; 0 2^2];
 
 % Dados filtrados
 % 3 colunas = x y th v w
 filtr = zeros(npassos,5);
 
+theta = 0;
+v = 1;
 % Filtragem
 for (i=1:npassos)
     % Fase de predicao
+    
+%    PHI2 = [1 0 -sin(theta)*deltaT*v cos(theta)*deltaT 1;
+%        0 1 0 cos(theta)*deltaT*v 0;
+%        0 0 1 v 0;
+%        0 0 0 1 0;
+%        0 0 0 0 1]; 
+%      theta = atan((data(i+1,3) - data(i,3))/(data(i+1,3) - data(i,3)));
+    
     X = PHI*X;
     P = PHI*P*PHI' + Q;
     
