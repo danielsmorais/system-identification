@@ -30,21 +30,27 @@ deltaT = data(2,1)-data(1,1);
 X = [0; 0; 0; 0; 0];
 % Matriz de transicao
 % Xk+1 = PHI*Xk + u
-PHI = [1 deltaT; 0 1];
+theta = 0.5;
+PHI = [1 0 0 cos(theta)*deltaT 0;
+       0 1 0 sin(theta)*deltaT 0;
+       0 0 1 0 deltaT;
+       0 0 0 1 0;
+       0 0 0 0 1];
 % Variancia da estimativa
 % Inicialmente nula pois a condicao inicial eh conhecida
-P = [0 0; 0 0];
+P = zeros(5);
 % Variancia do ruido dinamico
-Q = [0.5^2 0; 0 1.5^2]
+Q = diag([0.1^2 0.1^2 0.01 1 0.1^2]);
 % Matriz de medicao
 theta = 32*(pi/180);  %// 32 graus = angulo da via
-H = [cos(theta) 0; sin(theta) 0];
+H = [1 0 0 0 0;
+     0 1 0 0 0];
 % Variancia do ruido de medicao
 R = [5^2 0; 0 5^2];
 
 % Dados filtrados
-% 3 colunas = x y v
-filtr = zeros(npassos,3);
+% 3 colunas = x y th v w
+filtr = zeros(npassos,5);
 
 % Filtragem
 for (i=1:npassos)
@@ -61,9 +67,11 @@ for (i=1:npassos)
     P = P - K*H*P;
     
     % salva os pontos
-    filtr(i,1) = cos(theta)*X(1,1);
-    filtr(i,2) = sin(theta)*X(1,1);
-    filtr(i,3) = X(2,1);
+    filtr(i,1) = X(1,1);
+    filtr(i,2) = X(2,1);
+    filtr(i,3) = X(3,1);
+    filtr(i,4) = X(4,1);
+    filtr(i,5) = X(5,1);
 end
 
 % Percurso xy
