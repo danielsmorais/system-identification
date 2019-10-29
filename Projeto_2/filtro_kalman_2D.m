@@ -66,7 +66,7 @@ for (i=1:npassos)
     X = X + K*(Y-H*X);
     P = P - K*H*P;
     
-    % salva os pontos
+    % salva todos os pontos
     filtr(i,1) = X(1,1);
     filtr(i,2) = X(2,1);
     filtr(i,3) = X(3,1);
