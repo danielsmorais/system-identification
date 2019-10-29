@@ -1,0 +1,12 @@
+LINKS UTEIS
+
+https://towardsdatascience.com/kalman-filter-an-algorithm-for-making-sense-from-the-insights-of-various-sensors-fused-together-ddf67597f35e
+https://www.goddardconsulting.ca/simulink-extended-kalman-filter-quarter-car.html
+https://www.maxwell.vrac.puc-rio.br/7588/7588_4.PDF
+https://www.mathworks.com/videos/understanding-kalman-filters-part-7-how-to-use-an-extended-kalman-filter-in-simulink--1510166140906.html
+https://www.mathworks.com/videos/understanding-kalman-filters-part-4-optimal-state-estimator-algorithm--1493129749201.html
+https://www.mathworks.com/matlabcentral/fileexchange/24855-extended-kalman-filter-ekf
+https://www.mathworks.com/help/fusion/ref/trackingekf.html;jsessionid=fc00a823753e0b5d85adda5d11c1#d117e83666
+https://www.mathworks.com/matlabcentral/fileexchange/18189-learning-the-extended-kalman-filter
+http://www.professores.uff.br/koro/wp-content/uploads/sites/22/2017/08/Calculo3_Aula22_modulo_3.pdf
+
