@@ -4,11 +4,6 @@ r=0.1;    %std of measurement
 Q=q^2*eye(n); % covariance of process
 R=r^2;        % covariance of measurement  
 
-theta = atan()
-
-for
-    
-end
 
 
 f=@(x)[x(2);x(3);0.05*x(1)*(x(2)+x(3));x(2);x(3)];  % nonlinear state equations
