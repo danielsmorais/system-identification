@@ -58,22 +58,23 @@ theta = 0;
 v = 0;
 % Filtragem
 for (i=2:npassos)
+    
     % Fase de predicao
     
-    % Cálculo de theta pelos dados do GPS -- tem que ser pelos dados estimados...   
-    theta = atan((data(i,3)-data(i-1,3))/(data(i,2)-data(i-1,2)));
-    if data(i,2)<data(i-1,2)
-        theta = theta + pi;
-    end
-    
-    v = sqrt((data(i,3)-data(i-1,3))^2 + (data(i,2)-data(i-1,2))^2)/deltaT;
-    
+   
     PHI = [1 0 -sin(theta)*deltaT*v cos(theta)*deltaT 0;
            0 1 0 cos(theta)*deltaT*v 0;
            0 0 1 0 deltaT;
            0 0 0 1 0;
            0 0 0 0 1]; 
        
+    % Cálculo de theta pelos dados do GPS -- tem que ser pelos dados estimados...   
+    theta = atan((data(i,3)-data(i-1,3))/(data(i,2)-data(i-1,2)));
+    if data(i,2)<data(i-1,2)
+        theta = theta + pi;
+    end
+    
+    v = sqrt((data(i,3)-data(i-1,3))^2 + (data(i,2)-data(i-1,2))^2)/deltaT;       
 
     
     X = PHI*X;
