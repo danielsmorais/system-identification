@@ -34,7 +34,7 @@ PHI = [1 deltaT; 0 1];
 % Inicialmente nula pois a condicao inicial eh conhecida
 P = [0 0; 0 0];
 % Variancia do ruido dinamico
-Q = [0.5^2 0; 0 1.5^2]
+Q = [0.5^2 0; 0 1.5^2];
 % Matriz de medicao
 theta = 32*(pi/180);  %// 32 graus = angulo da via
 H = [cos(theta) 0; sin(theta) 0];
