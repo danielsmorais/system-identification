@@ -27,55 +27,76 @@ deltaT = data(2,1)-data(1,1);
 
 % Vetor de estados
 % X = [x; y; theta; v; w]
-X = [0; 0; 0; 0; 0];
-% Matriz de transicao
-% Xk+1 = PHI*Xk + u
-        % theta = 0.5;
-%         PHI = [1 0 0 cos(theta)*deltaT 0;
-%                0 1 0 sin(theta)*deltaT 0;
-%                0 0 1 0 deltaT;
-%                0 0 0 1 0;
-%                0 0 0 0 1];
-   
+X = [0; 0; 0; 0; 0];  
   
 % Variancia da estimativa
 % Inicialmente nula pois a condicao inicial eh conhecida
 P = zeros(5);
 % Variancia do ruido dinamico
-Q = diag([0.1^2 0.1^2 0.1^2 0.1 0.1^2]);
+Q = diag([0.5 0.5 0.15 0.2 0.2])*0.01;
 
 % Matriz de medicao
 H = [1 0 0 0 0;
      0 1 0 0 0];
 % Variancia do ruido de medicao
-R = [0.8 0; 0 0.8];
+R = [0.1 0; 0 0.1]*15;
 
 % Dados filtrados
-% 3 colunas = x y th v w
+% 5 colunas = x y th v w
 filtr = zeros(npassos,5);
 
 theta = 0;
 v = 0;
+w = 0;
+
+
+% --------------------- FAZER UMA ITERAÇÃO-------------------------
+
+% Predicao
+PHI = [1 0 -sin(theta)*deltaT*v cos(theta)*deltaT 0;
+       0 1 0 cos(theta)*deltaT*v 0;
+       0 0 1 0 deltaT;
+       0 0 0 v 0;
+       0 0 0 0 w]; 
+   
+X = PHI*X;
+P = PHI*P*PHI' + Q;
+
+% Medicao
+Y = [data(1,2); data(1,3)];
+
+% Fase de correcao
+K = P*H'*inv(H*P*H'+R);
+X = X + K*(Y-H*X);
+P = P - K*H*P;
+
+filtr(1,1) = X(1,1);
+filtr(1,2) = X(2,1);
+filtr(1,3) = X(3,1);
+filtr(1,4) = X(4,1);
+filtr(1,5) = X(5,1);
+
 % Filtragem
 for (i=2:npassos)
     
     % Fase de predicao
-    
-   
-    PHI = [1 0 -sin(theta)*deltaT*v cos(theta)*deltaT 0;
-           0 1 0 cos(theta)*deltaT*v 0;
-           0 0 1 0 deltaT;
-           0 0 0 1 0;
-           0 0 0 0 1]; 
-       
     % Cálculo de theta pelos dados do GPS -- tem que ser pelos dados estimados...   
     theta = atan((data(i,3)-data(i-1,3))/(data(i,2)-data(i-1,2)));
     if data(i,2)<data(i-1,2)
         theta = theta + pi;
     end
     
-    v = sqrt((data(i,3)-data(i-1,3))^2 + (data(i,2)-data(i-1,2))^2)/deltaT;       
-
+    % verificar essa parte
+    v = sqrt((data(i,3)-data(i-1,3))^2 + (data(i,2)-data(i-1,2))^2)/deltaT;
+    
+    v = filtr(i-1,4);
+    w = filtr(i-1,5);    
+   
+    PHI = [1 0 -sin(theta)*deltaT*v cos(theta)*deltaT 0;
+           0 1 0 cos(theta)*deltaT*v 0;
+           0 0 1 0 deltaT;
+           0 0 0 v 0;
+           0 0 0 0 w];  
     
     X = PHI*X;
     P = PHI*P*PHI' + Q;
