@@ -37,7 +37,7 @@ H = [1 0 0 0 0;
      0 1 0 0 0];
 
 % Variancia do ruido de medicao
-R = [0.1 0; 0 0.1]*250;
+R = [0.1 0; 0 0.1]*25;
 
 
 % Dados filtrados
@@ -47,6 +47,8 @@ filtr = zeros(npassos,5);
 theta = 0;
 v = 0;
 w = 0;
+
+traco = 0;
 
 % -- PRIMEIRA ITERACAO-------------------------
 
@@ -79,6 +81,8 @@ filtr(1,2) = X(2,1);
 filtr(1,3) = X(3,1);
 filtr(1,4) = X(4,1);
 filtr(1,5) = X(5,1);
+
+traco = trace(P);
 
 % Filtragem
 for i=2:npassos
@@ -116,6 +120,8 @@ for i=2:npassos
 %     end  
     
     v = sqrt((filtr(i,2)-filtr(i-1,2))^2 + (filtr(i,1)-filtr(i-1,1))^2)/deltaT;
+    
+    traco = [traco; trace(P)];
 end
 
 % Percurso xy
@@ -174,7 +180,11 @@ subplot(2,1,2);
 % Evolucao de v estimado
     %plot(1:550,filtr(:,4),'b')
 % Evolucao de w estimado
-    %plot(1:550,filtr(:,5),'b')    
+    %plot(1:550,filtr(:,5),'b')   
+    
+    
+figure(3)    
+plot(traco)
 
 % Volta para a pasta anterior
 chdir(OLDDIR);
