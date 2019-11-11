@@ -19,7 +19,10 @@ npassos = size(data,1);
 deltaT = data(2,1)-data(1,1);
 
 
-%----------------------------------------------------
+%---------------------------------------------------------------------
+% FAZER OS TESTES VARIANDO O RUÍDO DINÂMICO, POIS O RUIDO DO SENSOR É
+% CONHECIDO OU PODE ESTIMAR. CALULAR O DESVIO PADRÃO DAS AMOSTRAS...
+%---------------------------------------------------------------------
 
 % Vetor de estados
 % X = [x; y; theta; v; w]
@@ -37,7 +40,7 @@ H = [1 0 0 0 0;
      0 1 0 0 0];
 
 % Variancia do ruido de medicao
-R = [0.1 0; 0 0.1]*25;
+R = [0.1 0; 0 0.1]*250;
 
 
 % Dados filtrados

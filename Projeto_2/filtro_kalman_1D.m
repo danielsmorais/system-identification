@@ -45,6 +45,8 @@ R = [5^2 0; 0 5^2];
 % 3 colunas = x y v
 filtr = zeros(npassos,3);
 
+traco = 100;
+
 % Filtragem
 for (i=1:npassos)
     % Fase de predicao
@@ -63,6 +65,8 @@ for (i=1:npassos)
     filtr(i,1) = cos(theta)*X(1,1);
     filtr(i,2) = sin(theta)*X(1,1);
     filtr(i,3) = X(2,1);
+    
+    traco = [traco; trace(P)];
 end
 
 % Percurso xy
