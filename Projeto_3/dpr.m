@@ -10,7 +10,7 @@ function [d,x,y] = dpr(xp,yp,a,b)
         d = abs(yp-b);
     elseif(b==Inf)
         x = a;
-        y = yp;
+        y = yp;'
         d = abs(xp-a);
     else
         x = ((1/a)*xp + yp - b)/(a + 1/a);
