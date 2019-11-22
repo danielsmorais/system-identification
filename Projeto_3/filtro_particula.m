@@ -13,5 +13,7 @@ particula = zeros(NUM_PARTICULA,6);
 % 
 
 
+%desenhar linha : line([x0 x1],[y0 y1])
+
 
 
