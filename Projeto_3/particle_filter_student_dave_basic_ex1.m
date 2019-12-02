@@ -21,9 +21,9 @@
 %and Smith paper.
 
 %% clear everything
-clear all
-close all
-clc
+% clear all
+% close all
+% clc
 
 
 %% initialize the variables
@@ -32,7 +32,7 @@ x = 0.1; % initial actual state
 x_N = 1; % Noise covariance in the system (i.e. process noise in the state update, here, we'll use a gaussian.)
 x_R = 1; % Noise covariance in the measurement (i.e. the Quail creates complex illusions in its trail!)
 T = 75; % duration the chase (i.e. number of iterations).
-N = 10; % The number of particles the system generates. The larger this is, the better your approximation, but the more computation you need.
+N = 100; % The number of particles the system generates. The larger this is, the better your approximation, but the more computation you need.
 
 %initilize our initial, prior particle distribution as a gaussian around
 %the true initial value
@@ -173,7 +173,7 @@ end
 
 t = 0:T;
 figure(1);
-clf
+%clf
 plot(t, x_out, '.-b', t, x_est_out, '-.r','linewidth',3);
 set(gca,'FontSize',12); set(gcf,'Color','White');
 xlabel('time step'); ylabel('Quail flight position');

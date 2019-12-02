@@ -5,5 +5,5 @@ function desenha_mapa(mapa)
     axis equal
     xlabel('x');
     ylabel('y');
-    title('Deslocamento de Veiculo')
+    %title('Deslocamento de Veiculo')
 end

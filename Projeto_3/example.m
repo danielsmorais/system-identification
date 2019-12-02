@@ -1,3 +1,4 @@
+opengl('save','hardware')
 %% clear memory, screen, and close all figures
 clear, clc, close all;
 %% Process equation x[k] = sys(k, x[k-1], u[k]);
