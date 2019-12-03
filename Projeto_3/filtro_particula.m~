@@ -51,53 +51,35 @@ R = [6.7^2 0;
 filtr = zeros(npassos,3);
 
 figure(2)
-
-% Fase de predicao   
-for k = 1:NUM_PARTICULA
-
-    %saber o peso e theta da rua  
-    pf(k,1) = X(1) + Qv*randn;
-    pf(k,2) = X(2) + Qv*randn;
-    pf(k,3) = X(3) + Qv*randn;     
-end
  
 for i=1:npassos
     
-%     % Fase de predicao   
-%     for k = 1:NUM_PARTICULA
-%         
-%         %saber o peso e theta da rua  
-%         pf(k,1) = X(1) + Qv*randn;
-%         pf(k,2) = X(2) + Qv*randn;
-%         pf(k,3) = X(3) + Qv*randn;     
-%     end
+    % Fase de predicao   
+    for k = 1:NUM_PARTICULA
+        
+        %saber o peso e theta da rua  
+        pf(k,1) = X(1) + Qv*randn;
+        pf(k,2) = X(2) + Qv*randn;
+        pf(k,3) = X(3) + Qv*randn;     
+    end
     
     % Medicao GPS
     Y = [data(i,2); data(i,3)];
-       
-    % Fase de atualizacao
+    
+    %ajuste da particula para a rua?      
+    %ajuste da rua 
+    %peso(k,2) = qual minha rua?   
+    
+    % Fase de correcao 
     for k = 1:NUM_PARTICULA             
-        peso(k,1) = 1/sqrt((pf(k,1)-Y(1))^2 + (pf(k,2)-Y(2))^2);
-    end
-    
-    % Normalizacao dos pesos
-    peso(:,1) = peso(:,1)./sum(peso(:,1));    
-    
-    % resample com novas particulas
-    
-    [val, ind] = sort(peso(:,1))   %depois voltar AQUI para ajustar o id da rua.
-    pf = pf(ind);
-    
-    % pega 25%
-    
-    
-    
+        peso(k,1) = sqrt()
+    end  
     
     
     % salva os pontos
-    %filtr(i,1) = X(1,1);
-    %filtr(i,2) = X(2,1);
-    %filtr(i,3) = X(3,1);
+    filtr(i,1) = X(1,1);
+    filtr(i,2) = X(2,1);
+    filtr(i,3) = X(3,1);
     
     if i~=1
         
@@ -106,8 +88,8 @@ for i=1:npassos
         v = X(3,1);
     end   
     
-    plot(pf(:,1),pf(:,2),'.');
-    hold off
+    plot(pf(:,1),pf(:,2),'.r');
+    hold on
     pause(0.001)
     
 end    
@@ -130,9 +112,6 @@ desenha_mapa(mapa);
 hold on
 plot(filtr(:,1),filtr(:,2),'r')
 title('Deslocamento de Veiculo - FK')
-
-
-
 
 
 
