@@ -178,5 +178,5 @@ axis([110 155 47 85])
 
 
 
-
+%plot(G,'XData',G.Nodes.x,'YData',G.Nodes.y,'EdgeLabel',G.Edges.Weight)
 
