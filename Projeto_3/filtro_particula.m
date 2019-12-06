@@ -8,7 +8,7 @@ mapa = load('mapa.txt');
 data = load('dados_GPS_Waze_medidos.txt');
 
 NPASSOS = size(data,1);
-NPARTICULA = 20;
+NPARTICULA = 100;
 NRESAMPLING = 0.95;
 
 %npassos = 10;
@@ -59,9 +59,9 @@ filtr = zeros(NPASSOS,3);
 % Fase de predicao   
 for k = 1:NPARTICULA
     %saber o peso e theta da rua  
-    pfi(k,1) = X(1) + Qv*10*randn;
-    pfi(k,2) = X(2) + Qv*10*randn;
-    pfi(k,3) = X(3) + Qv*10*randn;     
+    pfi(k,1) = X(1) + Qv*20*randn;
+    pfi(k,2) = X(2) + Qv*20*randn;
+    pfi(k,3) = X(3) + Qv*20*randn;     
 end
 
 pf = pfi;
@@ -72,6 +72,7 @@ figure(1)
 for i=1:NPASSOS
     
     % PREDICAO
+    % TODO ajustar 
     for k = 1:NPARTICULA        
         %saber o peso e theta da rua  
         pf(k,1) = pf(k,1) + Qv*randn;
@@ -112,6 +113,11 @@ for i=1:NPASSOS
     pose = [pose; Xc Yc];
     
     plot(pose(:,1),pose(:,2),'k')
+    
+    
+    
+    
+    
    
     % salva os pontos
 %     filtr(i,1) = X(1);

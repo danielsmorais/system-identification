@@ -7,17 +7,18 @@ opengl('save','hardware')
 mapa = load('mapa.txt');
 data = load('dados_GPS_Waze_medidos.txt');
 
-npassos = size(data,1);
-NUM_PARTICULA = 20;
-NUM_RESAMPLING = 0.95;
+NPASSOS = size(data,1);
+NPARTICULA = 100;
+NRESAMPLING = 0.95;
 
 %npassos = 10;
 
 % Conjnunto de particulas
 % uma particula eh formada por [x y v]
-pf = zeros(NUM_PARTICULA, 3);
-pfi = zeros(NUM_PARTICULA, 3);
-peso = ones(NUM_PARTICULA, 2);
+pf = zeros(NPARTICULA, 3);
+pfi = zeros(NPARTICULA, 3);
+peso = ones(NPARTICULA, 2);
+pose = [];
 
 dt = data(2,1)-data(1,1);
 
@@ -52,15 +53,15 @@ R = [6.7^2 0;
 
 % Dados filtrados
 % 3 colunas = x y v
-filtr = zeros(npassos,3);
+filtr = zeros(NPASSOS,3);
 
 
 % Fase de predicao   
-for k = 1:NUM_PARTICULA
+for k = 1:NPARTICULA
     %saber o peso e theta da rua  
-    pfi(k,1) = X(1) + Qv*10*randn;
-    pfi(k,2) = X(2) + Qv*10*randn;
-    pfi(k,3) = X(3) + Qv*10*randn;     
+    pfi(k,1) = X(1) + Qv*20*randn;
+    pfi(k,2) = X(2) + Qv*20*randn;
+    pfi(k,3) = X(3) + Qv*20*randn;     
 end
 
 pf = pfi;
@@ -68,10 +69,11 @@ pf = pfi;
 figure(1)
 
 
-for i=1:10 %npassos
+for i=1:NPASSOS
     
     % PREDICAO
-    for k = 1:NUM_PARTICULA        
+    % TODO ajustar 
+    for k = 1:NPARTICULA        
         %saber o peso e theta da rua  
         pf(k,1) = pf(k,1) + Qv*randn;
         pf(k,2) = pf(k,2) + Qv*randn;
@@ -82,7 +84,7 @@ for i=1:10 %npassos
     Y = [data(i,2); data(i,3)];
        
     % ATUZALIZACAO DOS PESOS
-    for k = 1:NUM_PARTICULA             
+    for k = 1:NPARTICULA             
         peso(k,1) = 1/sqrt((pf(k,1)-Y(1))^2 + (pf(k,2)-Y(2))^2);
     end
     
@@ -92,33 +94,44 @@ for i=1:10 %npassos
     % RESSAMPLE
   
     % --- Ordencacao das particulas por peso. Os primeiros pesos sao os mais bem avaliados. 
-    [val, ind] = sort(peso(:,1),'descend');           % TODO depois voltar AQUI para ajustar o id da rua.
+    [val, ind] = sort(peso(:,1)); % TODO depois voltar AQUI para ajustar o id da rua.
     pf = pf(ind,:);
     peso = peso(ind,:);
+    
+    
+    plot(pf(:,1),pf(:,2),'.g')
+    hold on   
+    
      
-    % --- pega 95% melhores, os 5% são da combinacao inicial
+    % --- pega 95% melhores particulas e os 5% da combinacao inicial.
+    % TODO voltar a utilizar os 5%.
     % --- roleta
-    [pf, peso] = roleta();
+    [pf, peso] = roleta(pf,peso); 
+    
+    Xc = mean(pf(:,1));
+    Yc = mean(pf(:,2));    
+    pose = [pose; Xc Yc];
+    
+    plot(pose(:,1),pose(:,2),'k')
     
     
     
     
-       
     
-    
+   
     % salva os pontos
-    filtr(i,1) = X(1);
-    filtr(i,2) = X(2);
-    filtr(i,3) = X(3);
+%     filtr(i,1) = X(1);
+%     filtr(i,2) = X(2);
+%     filtr(i,3) = X(3);
+%     
+%     if i~=1
+%         
+%         v = [v; sqrt((filtr(i,2)-filtr(i-1,2))^2 + (filtr(i,1)-filtr(i-1,1))^2)/dt];
+%     else
+%         v = X(3);
+%     end   
     
-    if i~=1
-        
-        v = [v; sqrt((filtr(i,2)-filtr(i-1,2))^2 + (filtr(i,1)-filtr(i-1,1))^2)/dt];
-    else
-        v = X(3);
-    end   
-    
-    plot(pf(:,1),pf(:,2),'.b')
+    plot(pf(:,1),pf(:,2),'.r')
     hold off
     legend('FP')  
     set(gca,'xtick',[110:5:155])
@@ -126,7 +139,7 @@ for i=1:10 %npassos
     axis equal
     axis([110 155 47 85])
     
-    pause(0.001)
+    pause(0.00001)
     
 end    
  
