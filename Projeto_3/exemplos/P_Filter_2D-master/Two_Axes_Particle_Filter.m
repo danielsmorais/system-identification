@@ -4,7 +4,7 @@ clc;clear all;
 
 axesLimits = [-500 500 -500 500];
 
-numParticles = 300;%the number of particles we will create
+numParticles = 3000;%the number of particles we will create
 
 figure(1);close;
 
