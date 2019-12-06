@@ -8,18 +8,22 @@ mapa = load('mapa.txt');
 data = load('dados_GPS_Waze_medidos.txt');
 
 npassos = size(data,1);
-NUM_PARTICULA = 100;    
+NUM_PARTICULA = 20;
+NUM_RESAMPLING = 0.95;
+
+%npassos = 10;
 
 % Conjnunto de particulas
 % uma particula eh formada por [x y v]
 pf = zeros(NUM_PARTICULA, 3);
+pfi = zeros(NUM_PARTICULA, 3);
 peso = ones(NUM_PARTICULA, 2);
 
 dt = data(2,1)-data(1,1);
 
 % Vetor de estados
 % X = [x; y; v]
-X = [120; 67; 0];
+X = [120, 67, 0];
 % Matriz de transicao
 % Xk+1 = PHI*Xk + u
 theta = 0;
@@ -46,31 +50,34 @@ H = [1 0 0;
 R = [6.7^2 0;
      0 6.9^2];
 
- % Dados filtrados
+% Dados filtrados
 % 3 colunas = x y v
 filtr = zeros(npassos,3);
 
-figure(2)
 
 % Fase de predicao   
 for k = 1:NUM_PARTICULA
-
     %saber o peso e theta da rua  
-    pf(k,1) = X(1) + Qv*randn;
-    pf(k,2) = X(2) + Qv*randn;
-    pf(k,3) = X(3) + Qv*randn;     
+    pfi(k,1) = X(1) + Qv*randn;
+    pfi(k,2) = X(2) + Qv*randn;
+    pfi(k,3) = X(3) + Qv*randn;     
 end
- 
+
+pf = pfi;
+
+figure(1)
+
+
 for i=1:npassos
     
-%     % Fase de predicao   
-%     for k = 1:NUM_PARTICULA
-%         
-%         %saber o peso e theta da rua  
-%         pf(k,1) = X(1) + Qv*randn;
-%         pf(k,2) = X(2) + Qv*randn;
-%         pf(k,3) = X(3) + Qv*randn;     
-%     end
+    % Fase de predicao   
+    for k = 1:NUM_PARTICULA
+        
+        %saber o peso e theta da rua  
+        pf(k,1) = X(1) + Qv*randn;
+        pf(k,2) = X(2) + Qv*randn;
+        pf(k,3) = X(3) + Qv*randn;     
+    end
     
     % Medicao GPS
     Y = [data(i,2); data(i,3)];
@@ -83,31 +90,39 @@ for i=1:npassos
     % Normalizacao dos pesos
     peso(:,1) = peso(:,1)./sum(peso(:,1));    
     
-    % resample com novas particulas
+    % resample com novas particulas    
+    [val, ind] = sort(peso(:,1));   %depois voltar AQUI para ajustar o id da rua.
     
-    [val, ind] = sort(peso(:,1))   %depois voltar AQUI para ajustar o id da rua.
-    pf = pf(ind);
+    l% ordenacao por peso. As ultimas posicoes sao mais bem avaliadas
+    pf = pf(ind,:);
+    peso = peso(ind,:);
+     
+    % pega 95% melhores, os 5% são da combinacao inicial
     
-    % pega 25%
     
-    
-    
+       
     
     
     % salva os pontos
-    %filtr(i,1) = X(1,1);
-    %filtr(i,2) = X(2,1);
-    %filtr(i,3) = X(3,1);
+    filtr(i,1) = X(1);
+    filtr(i,2) = X(2);
+    filtr(i,3) = X(3);
     
     if i~=1
         
         v = [v; sqrt((filtr(i,2)-filtr(i-1,2))^2 + (filtr(i,1)-filtr(i-1,1))^2)/dt];
     else
-        v = X(3,1);
+        v = X(3);
     end   
     
-    plot(pf(:,1),pf(:,2),'.');
+    plot(pf(:,1),pf(:,2),'.b')
+    legend('FP')  
+    set(gca,'xtick',[110:5:155])
+    set(gca,'ytick',[47:5:85])
+    axis equal
+    axis([110 155 47 85])
     hold off
+    
     pause(0.001)
     
 end    
@@ -118,18 +133,30 @@ end
 % 
 
 
-figure(1)
+figure(2)
 subplot(1,2,1);
 desenha_mapa(mapa);
 hold on
 plot(data(:,2),data(:,3),'.r')
 title('Deslocamento de Veiculo - GPS')
 
+legend('GPS')
+set(gca,'xtick',[110:5:155])
+set(gca,'ytick',[47:5:85])
+axis equal
+axis([110 155 47 85])
+
 subplot(1,2,2);
 desenha_mapa(mapa);
 hold on
 plot(filtr(:,1),filtr(:,2),'r')
 title('Deslocamento de Veiculo - FK')
+
+legend('FP','GPS')
+set(gca,'xtick',[110:5:155])
+set(gca,'ytick',[47:5:85])
+axis equal
+axis([110 155 47 85])
 
 
 
