@@ -11,7 +11,8 @@ if (~chdir(DATADIR))
 end
 
 % Arquivo com as medicoes
-FILE='dados_GPS_2D_medidos.txt';
+%FILE='dados_GPS_2D_medidos.txt';
+FILE = 'dados_GPS_Waze_medidos.txt';
 % Leitura dos dados
 % 3 colunas = t x y
 data = dlmread(FILE);
@@ -146,48 +147,48 @@ figure(1)
     set(gcf, 'PaperSize', [5.5 4]);
 
 % Evolucao de x
-figure(2)
-subplot(2,1,1);
-    plot(1:550,filtr(:,1),'b-');
-    hold on
-    plot(1:550,data(:,2),'r');
-    hold off    
-    xlabel('t');
-    ylabel('x');
-    title('Evolução de x')
-    legend('FKE','GPS')
-    set(gca,'xtick',[0:100:550])
-    set(gca,'ytick',[-1:5:20])
-    %axis equal
-    axis([0 550 -2 20])
-%     set(gcf, 'PaperSize', [4 2.2]);
-%     set(gcf, 'Position',[1500 500 400 200])
-% Evolucao de y
-subplot(2,1,2);
-    plot(1:550,filtr(:,2),'b');
-    hold on
-    plot(1:550,data(:,3),'r');
-    hold off    
-    xlabel('t');
-    ylabel('y');
-    title('Evolução de y')
-    legend('FKE','GPS')
-    set(gca,'xtick',[0:100:550])
-    set(gca,'ytick',[-1:5:20])
-    %axis equal
-    axis([0 550 -2 20])
-    set(gcf, 'PaperSize', [4 4]);
-    set(gcf, 'Position',[1500 200 400 400])    
-% Evolucao de theta estimado
-    %plot(1:550,filtr(:,3),'b')
-% Evolucao de v estimado
-    %plot(1:550,filtr(:,4),'b')
-% Evolucao de w estimado
-    %plot(1:550,filtr(:,5),'b')   
-    
-    
-figure(3)    
-plot(traco)
+% figure(2)
+% subplot(2,1,1);
+%     plot(1:550,filtr(:,1),'b-');
+%     hold on
+%     plot(1:550,data(:,2),'r');
+%     hold off    
+%     xlabel('t');
+%     ylabel('x');
+%     title('Evolução de x')
+%     legend('FKE','GPS')
+%     set(gca,'xtick',[0:100:550])
+%     set(gca,'ytick',[-1:5:20])
+%     %axis equal
+%     axis([0 550 -2 20])
+% %     set(gcf, 'PaperSize', [4 2.2]);
+% %     set(gcf, 'Position',[1500 500 400 200])
+% % Evolucao de y
+% subplot(2,1,2);
+%     plot(1:550,filtr(:,2),'b');
+%     hold on
+%     plot(1:550,data(:,3),'r');
+%     hold off    
+%     xlabel('t');
+%     ylabel('y');
+%     title('Evolução de y')
+%     legend('FKE','GPS')
+%     set(gca,'xtick',[0:100:550])
+%     set(gca,'ytick',[-1:5:20])
+%     %axis equal
+%     axis([0 550 -2 20])
+%     set(gcf, 'PaperSize', [4 4]);
+%     set(gcf, 'Position',[1500 200 400 400])    
+% % Evolucao de theta estimado
+%     %plot(1:550,filtr(:,3),'b')
+% % Evolucao de v estimado
+%     %plot(1:550,filtr(:,4),'b')
+% % Evolucao de w estimado
+%     %plot(1:550,filtr(:,5),'b')   
+%     
+%     
+% figure(3)    
+% plot(traco)
 
 % Volta para a pasta anterior
 chdir(OLDDIR);

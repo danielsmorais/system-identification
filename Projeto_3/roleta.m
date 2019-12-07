@@ -1,4 +1,4 @@
-function [newpf, newpeso] = roleta(pf,peso)
+function [newpf, newpeso] = roleta(pf,pfi,peso)
 
     % Ajuste dos pesos para inteiro.
     peso(:,1) = fix(peso(:,1)/min(peso(:,1)));
