@@ -6,8 +6,8 @@ opengl('save','hardware')
 % Load mapa e dados
 mapa = load('mapa.txt');
 data = load('dados_GPS_Waze_medidos.txt');
-grafo= load('G.mat');
-G = grafo.G;
+%grafo= load('G.mat');
+%G = grafo.G;
 matriz_adj = load('matriz_adj.mat');
 
 NPASSOS = size(data,1);
@@ -129,7 +129,7 @@ for i=1:NPASSOS
     Xc = mean(pf(:,1));
     Yc = mean(pf(:,2));    
     pose = [pose; Xc Yc];
-    plot(G,'XData',G.Nodes.x,'YData',G.Nodes.y)
+    %plot(G,'XData',G.Nodes.x,'YData',G.Nodes.y)
     
     plot(pose(:,1),pose(:,2),'k')
     
@@ -149,7 +149,8 @@ for i=1:NPASSOS
 %     else
 %         v = X(3);
 %     end   
-    
+    desenha_mapa(mapa);
+    hold on
     plot(pf(:,1),pf(:,2),'.r')
     hold off
     legend('FP')  
