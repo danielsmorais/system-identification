@@ -122,7 +122,7 @@ for i=1:NPASSOS
     % TODO voltar a utilizar os 5%.
     % --- roleta
     
-    pf(1:ceil(NPARTICULA*0.05),:) = pfi(randperm(NPARTICULA,ceil(NPARTICULA*0.05)),:);
+    pf(ceil(NPARTICULA*0.05):NPASSOS)   
     
     [pf, peso] = roleta(pf,pfi,peso); 
     

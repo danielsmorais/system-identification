@@ -27,13 +27,13 @@ deltaT = data(2,1)-data(1,1);
 
 % Vetor de estados
 % X = [x; y; theta; v; w]
-X = [0; 0; 0; 0; 0];  
+X = [120; 67; 0; 0; 0];  
   
 % Variancia da estimativa
 % Inicialmente nula pois a condicao inicial eh conhecida
 P = zeros(5);
 % Variancia do ruido dinamico
-Q = diag([1 1 0.01 0.0001 0.00001])*0.05;
+Q = diag([1 1 0.01 0.0001 0.00001])*0.5;
     % Percebi que o theta nao afeta quase nada na filtragem
 
 % Matriz de medicao
@@ -145,6 +145,16 @@ figure(1)
     axis equal
     axis([-2 20 -2 14])
     set(gcf, 'PaperSize', [5.5 4]);
+    
+    
+    hold off
+    legend('FP')  
+    set(gca,'xtick',[110:5:155])
+    set(gca,'ytick',[47:5:85])
+    axis equal
+    axis([110 155 47 85])    
+    
+    
 
 % Evolucao de x
 % figure(2)
