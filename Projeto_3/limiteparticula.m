@@ -1,10 +1,10 @@
 function [f] = limiteparticula(pf,ve)
 
+    % pf particula
+    % ve vertices que a particula se encontra 
+    
     [a,b] = param_reta(ve(1,1),ve(1,2),ve(2,1),ve(2,2));
     [d,x,y] = dpr(pf(1,1),pf(1,2),a,b);
-
-    %verificar limites alguma coisa quando eh para outro
-    %lado... -?
 
     dx = ve(2,1)-ve(1,1);  % x2 - x1
     dy = ve(2,2)-ve(1,2);  % y2 - y1
@@ -15,17 +15,17 @@ function [f] = limiteparticula(pf,ve)
     foralimy = 0; % fora do limite... para esquerda ou direita, cima ou baixo?
 
     if dx >= 0                
-        if x >= ve(1,1) && x <= ve(2,1)
+        if (x >= ve(1,1)) && (x <= ve(2,1))
             disp('x dentro do limite 1');
             lx = 1;
         else
             disp('x fora do limite 2');
             lx = 0;
             
-            if x > ve(2,1)
-                foralim = 2;  %fora pelo segundo vertice
+            if (x > ve(2,1)) && (ve(2,1) >= ve(1,1))
+                foralimx = 2;  %fora pelo segundo vertice
             else
-                foralim = 1;  %fora pelo primeiro vertice 
+                foralimx = 1;  %fora pelo primeiro vertice 
             end
         end
     else
@@ -36,10 +36,10 @@ function [f] = limiteparticula(pf,ve)
             disp('x fora do limite 4');
             lx = 0;
             
-            if x < ve(2,1)
-                foralimx = 1;   %fora pelo primeiro vertice
+            if (x < ve(2,1)) && (ve(2,1) <= ve(1,1))
+                foralimx = 2;   %fora pelo primeiro vertice
             else
-                foralimx = 2;   %fora pelo segundo vertice
+                foralimx = 1;   %fora pelo segundo vertice
             end            
         end                  
     end
@@ -52,7 +52,7 @@ function [f] = limiteparticula(pf,ve)
             disp('y fora do limite 6');
             ly = 0;
             
-            if y > ve(2,2)
+            if (y > ve(2,2)) && (ve(2,2) >= ve(1,2))
                 foralimy = 2;   %fora pelo segundo vertice
             else
                 foralimy = 1;   %fora pelo primeiro vertice
@@ -66,12 +66,11 @@ function [f] = limiteparticula(pf,ve)
             disp('y fora do limite 8');
             ly = 0;
             
-            if y < ve(2,2)
-                foralim = 1;    %fora pelo primeiro vertice
+            if (y < ve(2,2)) && (ve(2,2) <= ve(1,2))
+                foralimy = 2;    %fora pelo primeiro vertice
             else
-                foralim = 2;    %fora pelo segundo vertice
-            end               
-            
+                foralimy = 1;    %fora pelo segundo vertice
+            end      
         end                  
     end
 
@@ -86,8 +85,12 @@ function [f] = limiteparticula(pf,ve)
     else
         disp('fora do limite');
         
+        % CALCULAR AS NOVAS POSIÇÕES E VERTICES PARA A PARTICULA
+        
+        
+        
     end
-    
+    fprintf('forax = %.4f foray = %.4f\n', foralimx, foralimy);
     fprintf('x = %.4f y = %.4f\n', x, y);
 
     f = 1;
