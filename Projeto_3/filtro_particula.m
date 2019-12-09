@@ -68,7 +68,7 @@ filtr = zeros(NPASSOS,3);
 
 % GERACAO DAS PARTICULAS
 for k = 1:NPARTICULA
-    pfi(k,1) = X(1) + Qv*25*randn*1.5; %x
+    pfi(k,1) = X(1) + 15 + Qv*25*randn*1.5; %x
     pfi(k,2) = X(2) + Qv*25*randn; %y
     pfi(k,3) = X(3) + Qv*25*randn; %v
     
@@ -123,7 +123,7 @@ for i=1:NPASSOS
     peso = peso(ind);
     
     plot(pf(:,1),pf(:,2),'.g')
-    legend('FP anterior')
+    
     hold on   
     
      
@@ -143,14 +143,14 @@ for i=1:NPASSOS
     
         
     %-----------------------------------------------------------------
-    
+    %plot(G,'XData',G.Nodes.x,'YData',G.Nodes.y)
     desenha_mapa(mapa);
     hold on
     plot(data(1:i,2), data(1:i,3),'.y')
     plot(pf(:,1),pf(:,2),'.r')
-    plot(pfgps(1), pfgps(2),'.c')
+    %plot(pfgps(1), pfgps(2),'.c')
     hold off
-    legend('FP')
+
     set(gca,'xtick',[110:5:155])
     set(gca,'ytick',[47:5:85])
     axis equal
