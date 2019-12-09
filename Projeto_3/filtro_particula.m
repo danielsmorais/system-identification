@@ -8,7 +8,8 @@ mapa = load('mapa.txt');
 data = load('dados_GPS_Waze_medidos.txt');
 %grafo= load('G.mat');
 %G = grafo.G;
-matriz_adj = load('matriz_adj.mat');
+matrizadj = load('matriz_adj.mat');
+matrizadj = matrizadj.matriz_adj;
 
 NPASSOS = size(data,1);
 NPARTICULA = 100;
