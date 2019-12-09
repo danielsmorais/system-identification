@@ -4,7 +4,7 @@ function ang = angrua(ve1,ve2,angr)
            ang = angr(i,3); 
            break;
         else
-            ang = 0;
+            ang = NaN;
         end
     end
 end

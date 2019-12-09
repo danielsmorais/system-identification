@@ -16,7 +16,7 @@ angr = load('angrua.mat');
 angr = angr.angrua;
 
 NPASSOS = size(data,1);
-NPARTICULA = 100;
+NPARTICULA = 300;
 NRESAMPLING = 0.95;
 
 %npassos = 10;
@@ -24,6 +24,7 @@ NRESAMPLING = 0.95;
 % Conjnunto de particulas
 % uma particula eh formada por [x y v v1 v2]
 pf = zeros(NPARTICULA, 5);
+pfgps = zeros(1, 5);
 pfi = zeros(NPARTICULA, 5);
 peso = ones(NPARTICULA, 1); %[w]
 %pesoant = ones(NPARTICULA, 1); %[w]
@@ -64,23 +65,24 @@ R = [6.7^2 0;
 % 3 colunas = x y v
 filtr = zeros(NPASSOS,3);
 
-a = Inf;
-b = 67;
 
 % GERACAO DAS PARTICULAS
 for k = 1:NPARTICULA
-    pfi(k,1) = X(1) + Qv*50*randn; %x
-    pfi(k,2) = X(2) + Qv*50*randn; %y
-    pfi(k,3) = X(3) + Qv*50*randn; %v
+    pfi(k,1) = X(1) + Qv*25*randn; %x
+    pfi(k,2) = X(2) + Qv*25*randn; %y
+    pfi(k,3) = X(3) + Qv*25*randn; %v
     
     pfi(k,:) = initparticula(pfi(k,:),matrizadj,vertice);
 end
 
 peso = peso/NPARTICULA;
-pesoant = peso;
 
 pf = pfi;
-%pfant = pfi;
+
+pfgps(1) = pfi(1);
+pfgps(2) = pfi(1);
+pfgps(4) = 11;
+pfgps(5) = 12;
 
 figure(1)
 
@@ -91,22 +93,23 @@ for i=1:NPASSOS
         ang = angrua(pf(k,4),pf(k,5),angr);
         pf(k,1) = pf(k,1) + pf(k,3)*cosd(ang)*dt;    %x 
         pf(k,2) = pf(k,2) + pf(k,3)*sind(ang)*dt;    %y
-        pf(k,3) = pf(k,3) + Qv*randn;               %v   
+        pf(k,3) = pf(k,3) + Qv*randn;                %v   
         
-        pf(k,:) = limiteparticula(pf(k,:),matrizadj,vertice);
+        pf(k,:) = initparticula(pf(k,:),matrizadj,vertice);
     end
     
     % MEDICAO
     GPS = [data(i,2); data(i,3)];
-    
-    %[d,x,y] = dpr(GPS(1),GPS(2),a,b)
-    
-    [d GPS(1) GPS(2)] = dpr(GPS(1),GPS(1),a,b);
+        
+    pfgps(1) = GPS(1);
+    pfgps(2) = GPS(2);
+
+    %pfgps = limiteparticula(pfgps,matrizadj,vertice)
     
        
     % ATUZALIZACAO DOS PESOS
     for k = 1:NPARTICULA             
-        peso(k,1) = 1/sqrt((pf(k,1)-GPS(1))^2 + (pf(k,2)-GPS(2))^2);
+        peso(k,1) = 1/sqrt((pf(k,1)-pfgps(1))^2 + (pf(k,2)-pfgps(2))^2);
     end
     
     % NORMALIZACAO DOS PESOS
@@ -120,6 +123,7 @@ for i=1:NPASSOS
     peso = peso(ind);
     
     plot(pf(:,1),pf(:,2),'.g')
+    legend('FP anterior')
     hold on   
     
      
@@ -131,29 +135,28 @@ for i=1:NPASSOS
     
     [pf, peso] = roleta(pf,pfi,peso); 
     
-    Xc = mean(pf(:,1));
-    Yc = mean(pf(:,2));    
-    pose = [pose; Xc Yc];
-    %plot(G,'XData',G.Nodes.x,'YData',G.Nodes.y)    
-    plot(pose(:,1),pose(:,2),'k');
+%     Xc = mean(pf(:,1));
+%     Yc = mean(pf(:,2));    
+%     pose = [pose; Xc Yc];
+%     %plot(G,'XData',G.Nodes.x,'YData',G.Nodes.y)    
+%     plot(pose(:,1),pose(:,2),'k');
     
-    
-    pfant = pf;
-    
+        
     %-----------------------------------------------------------------
     
     desenha_mapa(mapa);
     hold on
     plot(data(1:i,2), data(1:i,3),'.y')
     plot(pf(:,1),pf(:,2),'.r')
+    plot(pfgps(1), pfgps(2),'.c')
     hold off
-    legend('FP')  
+    legend('FP')
     set(gca,'xtick',[110:5:155])
     set(gca,'ytick',[47:5:85])
     axis equal
     axis([110 155 47 85])
     
-    pause(0.1)
+    pause(0.001)
     
 end    
  

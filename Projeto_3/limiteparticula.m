@@ -79,15 +79,11 @@ function pf = limiteparticula(pf,matrizadj,vert)
 
     vesaida = 0;
     if lx==1 && ly==1
-        %verificar min
         disp('dentro do limite');
         
         pf(1) = x;
         pf(2) = y;
-%         if d<dmin
-%             dmin = d;
-%             rua = [i j];
-%         end                
+            
     else
         disp('fora do limite');
         
@@ -107,46 +103,38 @@ function pf = limiteparticula(pf,matrizadj,vert)
             vesaida = 2;
         end
         
-        dmin = 1000;
-        rua = [0 0];
-        pose = [0 0];
-        for i=1:size(matrizadj,1)
-            if vesaida == 1  %vesaida == 1
-                %fazer randomico
-                if (matrizadj(pf(4),i) == 1) && (i~= pf(5))                    
-                    [a,b] = param_reta(vert(pf(4),1),vert(pf(4),2),vert(i,1),vert(i,2));
-                    [d,x,y] = dpr(pf(1),pf(2),a,b);
-                    
-                    if(d < dmin)
-                        dmin = d;
-                        rua = [pf(4) i];
-                        pose = [x y];
-                    end                            
-                end
-            else
-                %fazer randomico
-                %vesaida == 2
-                if (matrizadj(pf(5),i) == 1) && (i~= pf(4))                    
-                    [a,b] = param_reta(vert(pf(5),1),vert(pf(5),2),vert(i,1),vert(i,2));
-                    [d,x,y] = dpr(pf(1),pf(2),a,b);
-                    
-                    if(d < dmin)
-                        dmin = d;
-                        rua = [pf(5) i];
-                        pose = [x y];
-                    end                            
-                end                
-                
+        if vesaida == 1  
+            %vesaida == 1
+            ra = randsample(setdiff(1:size(matrizadj,1), pf(4)), 1);
+            while(ra==0)
+                ra = randsample(setdiff(1:size(matrizadj,1), pf(4)), 1);
             end
+            
+            [a,b] = param_reta(vert(pf(5),1),vert(pf(5),2),vert(ra,1),vert(ra,2));
+            [d,x,y] = dpr(pf(1),pf(2),a,b);
+            
+            pf(1) = x;
+            pf(2) = y;
+            pf(4) = pf(5);
+            pf(5) = ra;
+
+
+        else
+            %vesaida == 2
+            ra = randsample(setdiff(1:size(matrizadj,1), pf(5)), 1);
+            while(ra==0)
+                ra = randsample(setdiff(1:size(matrizadj,1), pf(5)), 1);
+            end      
+            
+            [a,b] = param_reta(vert(pf(4),1),vert(pf(4),2),vert(ra,1),vert(ra,2));
+            [d,x,y] = dpr(pf(1),pf(2),a,b);
+            
+            pf(1) = x;
+            pf(2) = y;
+            pf(4) = ra;            
+            pf(5) = pf(4);             
+
         end
-        
-        pf(1) = pose(1);
-        pf(2) = pose(2);
-        pf(4) = rua(1);
-        pf(5) = rua(2);    
-        
-        
-        
     end
     
     
