@@ -71,38 +71,43 @@ b = 67;
 for k = 1:NPARTICULA
     pfi(k,1) = X(1) + Qv*50*randn; %x
     pfi(k,2) = X(2) + Qv*50*randn; %y
-    pfi(k,3) = X(3) + Qv*50*randn; %v
-    
-    pfi(k,:) = initparticula(pfi(k,:),matrizadj,vertice);
+    pfi(k,3) = X(3) + Qv*50*randn; %v    
 end
 
-peso = peso/NPARTICULA;
+pfi(:,4) = randi(22)
+
 pesoant = peso;
 
 pf = pfi;
 %pfant = pfi;
+
+theta = 0;
 
 figure(1)
 
 for i=1:NPASSOS
     
     % PREDICAO
+    % TODO ajustar 
     for k = 1:NPARTICULA 
         ang = angrua(pf(k,4),pf(k,5),angr);
-        pf(k,1) = pf(k,1) + pf(k,3)*cosd(ang)*dt;    %x 
-        pf(k,2) = pf(k,2) + pf(k,3)*sind(ang)*dt;    %y
-        pf(k,3) = pf(k,3) + Qv*randn;               %v   
-        
-        pf(k,:) = limiteparticula(pf(k,:),matrizadj,vertice);
+        pf(k,1) = pf(k,1) + pf(k,3)*cos(ang)*dt;    %x 
+        pf(k,2) = pf(k,2) + pf(k,3)*sin(ang)*dt;    %y
+        pf(k,3) = pf(k,3) + Qv*randn;       %v  
+          
+%         pf(k,1) = pf(k,1) + Qv*randn; %x 
+%         pf(k,2) = pf(k,2) + Qv*randn; %y
+%         pf(k,3) = pf(k,3) + Qv*randn; %v           
     end
     
     % MEDICAO
     GPS = [data(i,2); data(i,3)];
     
-    %[d,x,y] = dpr(GPS(1),GPS(2),a,b)
+    %[d,x,y] = dpr(GPS(1),GPS(2),   )
     
-    [d GPS(1) GPS(2)] = dpr(GPS(1),GPS(1),a,b);
+    %[d GPS(1) GPS(2)] = dpr(GPS(1),GPS(1),a,b);
     
+
        
     % ATUZALIZACAO DOS PESOS
     for k = 1:NPARTICULA             
@@ -110,14 +115,14 @@ for i=1:NPASSOS
     end
     
     % NORMALIZACAO DOS PESOS
-    peso = peso./sum(peso);      
+    peso(:,1) = peso(:,1)./sum(peso(:,1));      
         
     % RESSAMPLE
   
     % --- Ordencacao das particulas por peso. Os primeiros pesos sao os mais bem avaliados. 
-    [val, ind] = sort(peso); % TODO depois voltar AQUI para ajustar o id da rua.
+    [val, ind] = sort(peso(:,1)); % TODO depois voltar AQUI para ajustar o id da rua.
     pf = pf(ind,:);
-    peso = peso(ind);
+    peso = peso(ind,:);
     
     plot(pf(:,1),pf(:,2),'.g')
     hold on   
@@ -134,14 +139,26 @@ for i=1:NPASSOS
     Xc = mean(pf(:,1));
     Yc = mean(pf(:,2));    
     pose = [pose; Xc Yc];
-    %plot(G,'XData',G.Nodes.x,'YData',G.Nodes.y)    
-    plot(pose(:,1),pose(:,2),'k');
+    %plot(G,'XData',G.Nodes.x,'YData',G.Nodes.y)
+    
+    plot(pose(:,1),pose(:,2),'k')
     
     
     pfant = pf;
     
-    %-----------------------------------------------------------------
     
+   
+    % salva os pontos
+%     filtr(i,1) = X(1);
+%     filtr(i,2) = X(2);
+%     filtr(i,3) = X(3);
+%     
+%     if i~=1
+%         
+%         v = [v; sqrt((filtr(i,2)-filtr(i-1,2))^2 + (filtr(i,1)-filtr(i-1,1))^2)/dt];
+%     else
+%         v = X(3);
+%     end   
     desenha_mapa(mapa);
     hold on
     plot(data(1:i,2), data(1:i,3),'.y')

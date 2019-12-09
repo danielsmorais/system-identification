@@ -1,9 +1,9 @@
 function [newpf, newpeso] = roleta(pf,pfi,peso)
 
     % Ajuste dos pesos para inteiro.
-    peso(:,1) = fix(peso(:,1)/min(peso(:,1)));
+    peso = fix(peso/min(peso));
     % Soma dos pesos.
-    somapeso = sum(peso(:,1));
+    somapeso = sum(peso(:));
     
     newpf = zeros(size(pf));
     newpeso = zeros(size(peso));
