@@ -16,7 +16,7 @@ angr = load('angrua.mat');
 angr = angr.angrua;
 
 NPASSOS = size(data,1);
-NPARTICULA = 50;
+NPARTICULA = 150;
 NRESAMPLING = 0.90;
 
 %npassos = 10;
@@ -122,7 +122,7 @@ for i=1:NPASSOS
     pf = pf(ind,:);
     peso = peso(ind);
     
-    plot(pf(:,1),pf(:,2),'.g','MarkerSize',12)
+    plot(pf(:,1),pf(:,2),'.g','MarkerSize',10)
     
     hold on   
     
@@ -146,8 +146,8 @@ for i=1:NPASSOS
     %plot(G,'XData',G.Nodes.x,'YData',G.Nodes.y)
     desenha_mapa(mapa);
     hold on
-    plot(data(1:i,2), data(1:i,3),'.y','MarkerSize',12)
-    plot(pf(:,1),pf(:,2),'.r','MarkerSize',12)
+    plot(data(1:i,2), data(1:i,3),'.y','MarkerSize',10)
+    plot(pf(:,1),pf(:,2),'.r','MarkerSize',10)
     %plot(pfgps(1), pfgps(2),'.c')
     hold off
 
