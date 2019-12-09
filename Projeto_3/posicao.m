@@ -62,9 +62,9 @@ function [dmin, rua] = posicao(pf,peso,matrizadj,ve)
                     end                
                 end
             end
-            disp(dmin)
-            disp(rua)
-            disp('----------------')
+%             disp(dmin)
+%             disp(rua)
+%             disp('----------------')
         end   
     end
 end

@@ -1,0 +1,88 @@
+function [f] = limiteparticula(pf,ve)
+
+    [a,b] = param_reta(ve(1,1),ve(1,2),ve(2,1),ve(2,2));
+    [d,x,y] = dpr(pf(1,1),pf(1,2),a,b);
+
+    %verificar limites alguma coisa quando eh para outro
+    %lado... -?
+
+    dx = ve(2,1)-ve(1,1);  % x2 - x1
+    dy = ve(2,2)-ve(1,2);  % y2 - y1
+
+    lx = -1; %x logico
+    ly = -1; %y logico
+    foralimx = 0; % fora do limite... para esquerda ou direita, cima ou baixo?
+    foralimy = 0; % fora do limite... para esquerda ou direita, cima ou baixo?
+
+    if dx >= 0                
+        if x >= ve(1,1) && x <= ve(2,1)
+            disp('x dentro do limite 1');
+            lx = 1;
+        else
+            disp('x fora do limite 2');
+            lx = 0;
+            
+            if x > ve(2,1)
+                foralim = 2;  %fora pelo segundo vertice
+            else
+                foralim = 1;  %fora pelo primeiro vertice 
+            end
+        end
+    else
+        if x <= ve(1,2) && x >= ve(2,2)
+            disp('x dentro do limite 3');
+            lx = 1;
+        else
+            disp('x fora do limite 4');
+            lx = 0;
+            
+            if x < ve(2,1)
+                foralimx = 1;   %fora pelo segundo vertice
+            else
+                foralimx = 2;   %fora pelo segundo vertice
+            end            
+        end                  
+    end
+
+    if dy >= 0                
+        if y >= ve(1,2) && y <= ve(2,2)
+            disp('y dentro do limite 5');
+            ly = 1;
+        else
+            disp('y fora do limite 6');
+            ly = 0;
+            
+            if y > ve(2,2)
+                foralimy = 1;
+            else
+                foralimy = -1;
+            end            
+        end
+    else
+        if y <= ve(2,2) && y >= ve(2,2)
+            disp('y dentro do limite 7');     
+            ly = 1;
+        else
+            disp('y fora do limite 8');
+            ly = 0;
+            
+            if y < ve(2,2)
+                foralim = -1;
+            else
+                foralim = 1;
+            end               
+            
+        end                  
+    end
+
+%     if lx==1 && ly==1
+%         %verificar min
+%         if d<dmin
+%             dmin = d;
+%             rua = [i j];
+%         end                
+%     end
+     
+    f = 1;
+
+end
