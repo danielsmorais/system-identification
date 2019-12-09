@@ -1,7 +1,8 @@
 function [f] = limiteparticula(pf,ve)
 
+    
     % pf particula
-    % ve vertices que a particula se encontra 
+    % ve vertices que a particula se encontra [ve1; ve2] 
     
     [a,b] = param_reta(ve(1,1),ve(1,2),ve(2,1),ve(2,2));
     [d,x,y] = dpr(pf(1,1),pf(1,2),a,b);
@@ -74,6 +75,7 @@ function [f] = limiteparticula(pf,ve)
         end                  
     end
 
+    vesaida = 0;
     if lx==1 && ly==1
         %verificar min
         disp('dentro do limite');
@@ -87,8 +89,19 @@ function [f] = limiteparticula(pf,ve)
         
         % CALCULAR AS NOVAS POSIÇÕES E VERTICES PARA A PARTICULA
         
-        
-        
+        if foralimx == 1 && foralimy == 0
+            vesaida = 1;
+        elseif foralimx == 2 && foralimy == 0
+            vesaida = 2;
+        elseif foralimx == 0 && foralimy == 1
+            vesaida = 1;
+        elseif foralimx == 0 && foralimy == 2
+            vesaida = 2;
+        elseif foralimx == 1 && foralimy == 1
+            vesaida = 1;
+        elseif foralimx == 2 && foralimy == 2
+            vesaida = 2;
+        end        
     end
     fprintf('forax = %.4f foray = %.4f\n', foralimx, foralimy);
     fprintf('x = %.4f y = %.4f\n', x, y);
