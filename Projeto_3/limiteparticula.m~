@@ -105,9 +105,9 @@ function pf = limiteparticula(pf,matrizadj,vert)
         
         if vesaida == 1  
             %vesaida == 1
-            ra = randsample(setdiff(1:4, pf(4)), 1);
+            ra = randsample(setdiff(1:size(matrizadj,1), pf(4)), 1);
             while(ra==0)
-                ra = randsample(setdiff(1:4, pf(4)), 1);
+                ra = randsample(setdiff(1:size(matrizadj,1), pf(4)), 1);
             end
             
             [a,b] = param_reta(vert(pf(5),1),vert(pf(5),2),vert(ra,1),vert(ra,2));
@@ -121,9 +121,9 @@ function pf = limiteparticula(pf,matrizadj,vert)
 
         else
             %vesaida == 2
-            ra = randsample(setdiff(1:4, pf(5)), 1);
+            ra = randsample(setdiff(1:size(matrizadj,1), pf(5)), 1);
             while(ra==0)
-                ra = randsample(setdiff(1:4, pf(5)), 1);
+                ra = randsample(setdiff(1:size(matrizadj,1), pf(5)), 1);
             end      
             
             [a,b] = param_reta(vert(pf(4),1),vert(pf(4),2),vert(ra,1),vert(ra,2));
@@ -132,7 +132,7 @@ function pf = limiteparticula(pf,matrizadj,vert)
             pf(1) = x;
             pf(2) = y;
             pf(4) = ra;            
-            pf(5) = pf(4);             
+            pf(5) = ;             
 
         end
     end

@@ -17,7 +17,7 @@ angr = angr.angrua;
 
 NPASSOS = size(data,1);
 NPARTICULA = 300;
-NRESAMPLING = 0.95;
+NRESAMPLING = 0.90;
 
 %npassos = 10;
 
@@ -68,7 +68,7 @@ filtr = zeros(NPASSOS,3);
 
 % GERACAO DAS PARTICULAS
 for k = 1:NPARTICULA
-    pfi(k,1) = X(1) + Qv*25*randn; %x
+    pfi(k,1) = X(1) + Qv*25*randn*1.5; %x
     pfi(k,2) = X(2) + Qv*25*randn; %y
     pfi(k,3) = X(3) + Qv*25*randn; %v
     
@@ -80,7 +80,7 @@ peso = peso/NPARTICULA;
 pf = pfi;
 
 pfgps(1) = pfi(1);
-pfgps(2) = pfi(1);
+pfgps(2) = pfi(2);
 pfgps(4) = 11;
 pfgps(5) = 12;
 
@@ -93,9 +93,9 @@ for i=1:NPASSOS
         ang = angrua(pf(k,4),pf(k,5),angr);
         pf(k,1) = pf(k,1) + pf(k,3)*cosd(ang)*dt;    %x 
         pf(k,2) = pf(k,2) + pf(k,3)*sind(ang)*dt;    %y
-        pf(k,3) = pf(k,3) + Qv*randn;                %v   
+        pf(k,3) = pf(k,3) + randn;                %v   
         
-        pf(k,:) = initparticula(pf(k,:),matrizadj,vertice);
+        %pf(k,:) = initparticula(pf(k,:),matrizadj,vertice);
     end
     
     % MEDICAO
@@ -131,7 +131,7 @@ for i=1:NPASSOS
     % TODO voltar a utilizar os 5%.
     % --- roleta
     
-    pf(1:ceil(NPARTICULA*0.05),:) = pfi(randperm(NPARTICULA,ceil(NPARTICULA*0.05)),:);
+    pf(1:ceil(NPARTICULA*(1-NRESAMPLING)),:) = pfi(randperm(NPARTICULA,ceil(NPARTICULA*(1-NRESAMPLING))),:);
     
     [pf, peso] = roleta(pf,pfi,peso); 
     

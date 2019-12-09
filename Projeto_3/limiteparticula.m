@@ -131,8 +131,8 @@ function pf = limiteparticula(pf,matrizadj,vert)
             
             pf(1) = x;
             pf(2) = y;
-            pf(4) = ra;            
-            pf(5) = pf(4);             
+            pf(4) = pf(4);            
+            pf(5) = ra;             
 
         end
     end
