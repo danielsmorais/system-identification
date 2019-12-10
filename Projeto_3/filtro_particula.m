@@ -16,7 +16,7 @@ angr = load('angrua.mat');
 angr = angr.angrua;
 
 NPASSOS = size(data,1);
-NPARTICULA = 150;
+NPARTICULA = 50;
 NRESAMPLING = 0.90;
 
 %npassos = 10;
@@ -86,7 +86,7 @@ pfgps(5) = 12;
 
 figure(1)
 
-for i=1:200
+for i=1:NPASSOS
     
     % PREDICAO
     for k = 1:NPARTICULA 
@@ -156,7 +156,7 @@ for i=1:200
     axis equal
     axis([110 155 47 85])
     
-    pause(0.01)
+    pause(0.0001)
     
     disp(i);
     
