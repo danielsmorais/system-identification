@@ -86,7 +86,7 @@ pfgps(5) = 12;
 
 figure(1)
 
-for i=1:NPASSOS
+for i=1:200
     
     % PREDICAO
     for k = 1:NPARTICULA 
@@ -157,6 +157,8 @@ for i=1:NPASSOS
     axis([110 155 47 85])
     
     pause(0.01)
+    
+    disp(i);
     
 end    
  
